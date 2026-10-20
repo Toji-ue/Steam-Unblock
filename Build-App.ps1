@@ -10,7 +10,6 @@ foreach ($name in @('PresentationFramework.dll','PresentationCore.dll','WindowsB
 foreach ($name in @('FuckFpt.psm1','AppWorker.ps1','steam-domains.txt','manifest.json')) {
     $arguments += '/resource:' + (Join-Path $PSScriptRoot $name) + ',Payload.' + $name
 }
-$arguments += '/resource:' + (Join-Path $PSScriptRoot 'vendor\goodbyedpi-0.2.3rc3-2.zip') + ',Payload.goodbyedpi-0.2.3rc3-2.zip'
 $arguments += Join-Path $PSScriptRoot 'FuckFpt.App.cs'
 & $compiler @arguments
 if ($LASTEXITCODE -ne 0) { throw 'Biên dịch ứng dụng thất bại.' }

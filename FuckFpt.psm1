@@ -121,8 +121,13 @@ function Install-Engine {
         $bundled = Join-Path $script:Source "vendor\$($manifest.archive)"
         if (Test-Path $bundled) { Copy-Item -LiteralPath $bundled -Destination $archive }
         else {
+            Write-Host "Đang tải GoodbyeDPI $($manifest.version) từ GitHub chính thức (chỉ lần đầu)..."
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-            Invoke-WebRequest -Uri $manifest.url -OutFile $archive -UseBasicParsing -TimeoutSec 60
+            $oldProgress = $ProgressPreference
+            $ProgressPreference = 'SilentlyContinue' # the PS 5.1 progress bar slows Invoke-WebRequest drastically
+            try { Invoke-WebRequest -Uri $manifest.url -OutFile $archive -UseBasicParsing -TimeoutSec 60 }
+            catch { throw "Không tải được GoodbyeDPI từ GitHub; kiểm tra mạng rồi thử lại. Chi tiết: $($_.Exception.Message)" }
+            finally { $ProgressPreference = $oldProgress }
         }
         Assert-Hash $archive $manifest.sha256
         $stage = Join-Path $script:Root ("unpack-" + [guid]::NewGuid().ToString())
