@@ -8,7 +8,7 @@
 
 ## Tải về
 
-**[⬇ Tải FuckFpt.exe (bản mới nhất)](https://github.com/Toji-ue/Steam-Unblock/releases/latest/download/FuckFpt.exe)** · [Tất cả bản phát hành](https://github.com/Toji-ue/Steam-Unblock/releases)
+**[⬇ Tải FuckFpt.exe (bản mới nhất)](https://github.com/Toji-ue/Steam-Unblock/releases/latest)** · [Tất cả bản phát hành](https://github.com/Toji-ue/Steam-Unblock/releases)
 
 Exe chưa được ký số, nên Windows SmartScreen có thể hiện "Windows protected your PC": bấm **More info → Run anyway**. Nếu không muốn tin file build sẵn, hãy tự build từ mã nguồn (xem [Build và kiểm thử](#build-và-kiểm-thử)).
 
