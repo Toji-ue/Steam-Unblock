@@ -16,7 +16,7 @@ Exe chưa được ký số, nên Windows SmartScreen có thể hiện "Windows 
 
 Yêu cầu: Windows 10/11 x64. .NET Framework 4.x và Windows PowerShell 5.1 đã có sẵn trên Windows.
 
-1. [Tải `FuckFpt.exe`](https://github.com/Toji-ue/Steam-Unblock/releases/latest/download/FuckFpt.exe), hoặc tự build.
+1. [Tải `FuckFpt.exe`](https://github.com/Toji-ue/Steam-Unblock/releases/latest), hoặc tự build.
 2. Tắt WARP, Tailscale, VPN hoặc công cụ chặn gói tin khác nếu đang bật. App sẽ báo nếu phát hiện xung đột.
 3. Mở `FuckFpt.exe` và đồng ý quyền quản trị (cần để cài driver và quy tắc DNS).
 4. Bấm **nút nguồn**. Vòng xoay chạy trong lúc app thử cấu hình và kiểm tra kết nối; khung **Log** hiện từng bước đang làm.
