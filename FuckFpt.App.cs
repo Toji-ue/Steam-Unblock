@@ -24,16 +24,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Forms = System.Windows.Forms;
 
-// Shown in the exe's Properties → Details; keep the version in step with the release tag.
-[assembly: AssemblyTitle("Fuck FPT")]
-[assembly: AssemblyDescription("Bật/tắt truy cập Steam trên mạng FPT bằng GoodbyeDPI và DNS riêng cho miền Steam")]
-[assembly: AssemblyProduct("Fuck FPT")]
-[assembly: AssemblyCompany("Toji-ue")]
-[assembly: AssemblyCopyright("Toji-ue · github.com/Toji-ue/Steam-Unblock")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
-[assembly: AssemblyInformationalVersion("1.0.1")]
-
 namespace FuckFptDesktop
 {
     static class Program
@@ -82,10 +72,12 @@ namespace FuckFptDesktop
                     InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
                 Directory.CreateDirectory(Payload, acl);
             }
-            // GoodbyeDPI is not embedded: the backend downloads the pinned release on first start and verifies its hashes.
-            foreach (string name in new[] { "FuckFpt.psm1", "AppWorker.ps1", "steam-domains.txt", "manifest.json" })
+            string vendor = Path.Combine(Payload, "vendor");
+            if (Directory.Exists(vendor) && (File.GetAttributes(vendor) & FileAttributes.ReparsePoint) != 0) throw new IOException("Thư mục vendor là liên kết.");
+            Directory.CreateDirectory(vendor);
+            foreach (string name in new[] { "FuckFpt.psm1", "AppWorker.ps1", "steam-domains.txt", "manifest.json", "goodbyedpi-0.2.3rc3-2.zip" })
             {
-                string destination = Path.Combine(Payload, name);
+                string destination = Path.Combine(name.EndsWith(".zip", StringComparison.Ordinal) ? vendor : Payload, name);
                 string temp = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
                 try
                 {

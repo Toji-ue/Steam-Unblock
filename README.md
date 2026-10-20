@@ -12,27 +12,9 @@
 
 Exe chưa được ký số, nên Windows SmartScreen có thể hiện "Windows protected your PC": bấm **More info → Run anyway**. Nếu không muốn tin file build sẵn, hãy tự build từ mã nguồn (xem [Build và kiểm thử](#build-và-kiểm-thử)).
 
-### Trình duyệt hoặc Windows báo virus?
-
-Windows Defender có thể chặn file khi tải với tên kiểu **`Trojan:Win32/Sabsik…!ml`**. Đuôi `!ml` nghĩa là phát hiện bằng mô hình máy học (đoán theo đặc điểm file), không phải khớp với một virus đã biết. Exe mới, chưa ký số, đòi quyền quản trị và chạy PowerShell ẩn thường bị đoán nhầm như vậy. Đây là báo nhầm, đã được gửi cho Microsoft xem xét.
-
-Mã nguồn công khai ở repo này. Để tự kiểm tra trước khi cho phép:
-
-1. **Đối chiếu SHA-256** của file tải về với mã ghi trong trang release:
-   ```powershell
-   Get-FileHash .\FuckFpt.exe
-   ```
-   Khác mã thì **đừng chạy**, tải lại từ trang release chính thức.
-2. Nếu Defender đã cách ly file: **Windows Security → Virus & threat protection → Protection history**, chọn mục bị chặn → **Actions → Allow** (hoặc **Restore**), rồi tải lại nếu trình duyệt đã xóa file.
-3. Trong trình duyệt, mở danh sách tải về và chọn **Keep / Giữ lại** nếu được hỏi.
-
-Không muốn cho phép một exe build sẵn? **Tự build từ mã nguồn**: file build trên máy bạn không đi qua bước kiểm tra lúc tải về của trình duyệt và SmartScreen.
-
-Từ bản 1.0.1, exe không còn chứa sẵn GoodbyeDPI (bớt một lý do bị đoán nhầm). App tải bản chính thức từ GitHub ở lần bật đầu tiên và kiểm tra hash, chữ ký driver trước khi dùng.
-
 ## Cài và chạy
 
-Yêu cầu: Windows 10/11 x64. .NET Framework 4.x và Windows PowerShell 5.1 đã có sẵn trên Windows. Lần bật đầu tiên cần mạng tới GitHub để tải GoodbyeDPI (khoảng 1 MB).
+Yêu cầu: Windows 10/11 x64. .NET Framework 4.x và Windows PowerShell 5.1 đã có sẵn trên Windows.
 
 1. [Tải `FuckFpt.exe`](https://github.com/Toji-ue/Steam-Unblock/releases/latest), hoặc tự build.
 2. Tắt WARP, Tailscale, VPN hoặc công cụ chặn gói tin khác nếu đang bật. App sẽ báo nếu phát hiện xung đột.
@@ -51,7 +33,7 @@ Nếu máy tắt đột ngột khi đang bật, mở lại app: trạng thái "C
 
 Sau khi bật, hãy tự kiểm tra trong ứng dụng Steam: đăng nhập, Friends/chat, tải/cập nhật, Workshop, Market và một game online. App chỉ kiểm tra web; không bao giờ cần mật khẩu hay mã Steam Guard của bạn.
 
-## Anti-cheat
+## Anti-cheat và phần mềm diệt virus
 
 GoodbyeDPI dùng driver kernel **WinDivert** để chặn và sửa gói tin mạng. App không đọc hay sửa bộ nhớ game, chỉ sửa gói tin tới các miền Steam. Tuy vậy, anti-cheat chạy ở kernel vẫn có thể phản ứng khi thấy một driver mạng lạ.
 
@@ -67,7 +49,7 @@ GoodbyeDPI dùng driver kernel **WinDivert** để chặn và sửa gói tin m�
 
 Chưa thấy nhà phát hành nào công bố **cấm tài khoản** vì GoodbyeDPI hay WinDivert; các sự cố được ghi nhận là game không khởi động được hoặc xung đột driver. Chính sách anti-cheat có thể thay đổi bất cứ lúc nào, nên **bạn tự chịu rủi ro** khi chạy app cùng lúc với game.
 
-**Phần mềm diệt virus khác:** ESET, Kaspersky, Norton… có thể chặn hoặc cảnh báo nhầm GoodbyeDPI hay WinDivert vì chúng can thiệp vào gói tin mạng. Nếu app báo GoodbyeDPI thoát sớm hoặc không tải được, hãy xem phần mềm diệt virus có chặn nó không. Chỉ thêm ngoại lệ khi bạn đã tin tưởng nguồn tải (hash có trong [`manifest.json`](manifest.json)).
+**Phần mềm diệt virus:** một số phần mềm (ESET, Kaspersky, Norton…) có thể chặn hoặc cảnh báo nhầm GoodbyeDPI hay WinDivert vì chúng can thiệp vào gói tin mạng. Nếu app báo GoodbyeDPI thoát sớm, hãy xem phần mềm diệt virus có chặn nó không. Chỉ thêm ngoại lệ khi bạn đã tin tưởng nguồn tải (hash có trong [`manifest.json`](manifest.json)).
 
 ## Dùng bằng dòng lệnh
 
@@ -133,7 +115,7 @@ Ghim [GoodbyeDPI 0.2.3rc3](https://github.com/ValdikSS/GoodbyeDPI/releases/tag/0
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Build-App.ps1
 ```
 
-Dùng `csc.exe` có sẵn trong .NET Framework 4.x, không cần cài thêm gì. Script và danh sách miền được nhúng vào `FuckFpt.exe`; GoodbyeDPI không được nhúng mà tải ở lần bật đầu tiên.
+Dùng `csc.exe` có sẵn trong .NET Framework 4.x, không cần cài thêm gì. Script, danh sách miền và gói GoodbyeDPI được nhúng vào `FuckFpt.exe`.
 
 Kiểm thử giả lập bằng Pester 3.4 đi kèm Windows PowerShell (không bật driver hay đổi DNS). Dùng `powershell.exe`, không dùng PowerShell 7:
 
@@ -152,7 +134,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-Pester -Scrip
 | `FuckFpt.Tests.ps1` | Kiểm thử Pester |
 | `Build-App.ps1`, `app.manifest` | Build exe (yêu cầu quyền quản trị khi chạy) |
 | `app.ico` | Icon của exe, cửa sổ và khay hệ thống |
-| `manifest.json`, `vendor/` | Phiên bản, hash ghim và gói GoodbyeDPI gốc (bản dòng lệnh dùng gói này, không cần tải) |
+| `manifest.json`, `vendor/` | Phiên bản, hash ghim và gói GoodbyeDPI gốc |
 | `steam-domains.txt` | Danh sách miền Steam |
 
 ## Giới hạn
