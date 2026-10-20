@@ -1,0 +1,11 @@
+# Báo cáo đo mạng: chứa IP, DNS và thời điểm truy cập của máy bạn
+reports/
+
+# File build: phát hành qua GitHub Releases, không commit
+*.exe
+
+# File tạm khi ghi payload
+*.tmp
+
+# Ảnh gốc để tạo app.ico; build chỉ cần app.ico
+*-steamhappy.png
