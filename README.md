@@ -8,11 +8,17 @@
 
 > Đã kiểm tra thực tế trên FPT: Steam Store, Community, Help và API vượt qua hai lượt kiểm tra liên tiếp; chu trình bật → tắt sạch → bật lại cũng đạt. Đăng nhập, tải game và chơi online **chưa** được nghiệm thu đầy đủ. Chi tiết: [VALIDATION.md](VALIDATION.md).
 
+## Tải về
+
+**[⬇ Tải FuckFpt.exe (bản mới nhất)](https://github.com/Toji-ue/Steam-Unblock/releases/latest/download/FuckFpt.exe)** · [Tất cả bản phát hành](https://github.com/Toji-ue/Steam-Unblock/releases)
+
+Exe chưa được ký số, nên Windows SmartScreen có thể hiện "Windows protected your PC": bấm **More info → Run anyway**. Nếu không muốn tin file build sẵn, hãy tự build từ mã nguồn (xem [Build và kiểm thử](#build-và-kiểm-thử)).
+
 ## Cài và chạy
 
 Yêu cầu: Windows 10/11 x64. .NET Framework 4.x và Windows PowerShell 5.1 đã có sẵn trên Windows.
 
-1. Tải `FuckFpt.exe` ở mục **Releases**, hoặc tự build (xem bên dưới).
+1. [Tải `FuckFpt.exe`](https://github.com/Toji-ue/Steam-Unblock/releases/latest/download/FuckFpt.exe), hoặc tự build.
 2. Tắt WARP, Tailscale, VPN hoặc công cụ chặn gói tin khác nếu đang bật. App sẽ báo nếu phát hiện xung đột.
 3. Mở `FuckFpt.exe` và đồng ý quyền quản trị (cần để cài driver và quy tắc DNS).
 4. Bấm **nút nguồn**. Vòng xoay chạy trong lúc app thử cấu hình và kiểm tra kết nối; khung **Log** hiện từng bước đang làm.
@@ -28,6 +34,24 @@ Yêu cầu: Windows 10/11 x64. .NET Framework 4.x và Windows PowerShell 5.1 đ�
 Nếu máy tắt đột ngột khi đang bật, mở lại app: trạng thái "Cần phục hồi" sẽ hiện ra, bấm nút nguồn để dọn phiên cũ.
 
 Sau khi bật, hãy tự kiểm tra trong ứng dụng Steam: đăng nhập, Friends/chat, tải/cập nhật, Workshop, Market và một game online. App chỉ kiểm tra web; không bao giờ cần mật khẩu hay mã Steam Guard của bạn.
+
+## Anti-cheat và phần mềm diệt virus
+
+GoodbyeDPI dùng driver kernel **WinDivert** để chặn và sửa gói tin mạng. App không đọc hay sửa bộ nhớ game, chỉ sửa gói tin tới các miền Steam. Tuy vậy, anti-cheat chạy ở kernel vẫn có thể phản ứng khi thấy một driver mạng lạ.
+
+**Khuyến nghị: tắt app (nút nguồn hoặc thoát) trước khi mở game có anti-cheat kernel.** Khi tắt, app gỡ hẳn driver WinDivert do nó cài, không để lại gì chạy nền. Steam vẫn giữ đăng nhập sau khi tắt.
+
+| Anti-cheat | Game ví dụ | Ghi chú |
+|---|---|---|
+| **Riot Vanguard** | Valorant, League of Legends | Vanguard chặn các driver nó coi là không an toàn và có thể không cho game chạy. Đã có người báo lỗi Vanguard khi WinDivert còn trên máy. **Tắt app, rồi khởi động lại máy nếu Vanguard vẫn báo lỗi**, trước khi chơi. |
+| **FACEIT AC** | CS2 trên FACEIT | Anti-cheat kernel, chạy cùng lúc với game. Tắt app trước khi mở FACEIT. |
+| **Easy Anti-Cheat** | Apex Legends, Rust, Elden Ring… | Có người gặp lỗi khởi động EAC liên quan tới `WinDivert64.sys`. Tắt app trước khi vào game. |
+| **BattlEye** | PUBG, Rainbow Six Siege, DayZ… | Driver kernel; cùng khuyến nghị: tắt app trước khi vào game. |
+| **VAC** (Valve) | CS2, Dota 2 | Chạy ở user mode và quét tiến trình game; app không đụng vào game. Chưa ghi nhận xung đột. |
+
+Chưa thấy nhà phát hành nào công bố **cấm tài khoản** vì GoodbyeDPI hay WinDivert; các sự cố được ghi nhận là game không khởi động được hoặc xung đột driver. Chính sách anti-cheat có thể thay đổi bất cứ lúc nào, nên **bạn tự chịu rủi ro** khi chạy app cùng lúc với game.
+
+**Phần mềm diệt virus:** một số phần mềm (ESET, Kaspersky, Norton…) có thể chặn hoặc cảnh báo nhầm GoodbyeDPI hay WinDivert vì chúng can thiệp vào gói tin mạng. Nếu app báo GoodbyeDPI thoát sớm, hãy xem phần mềm diệt virus có chặn nó không. Chỉ thêm ngoại lệ khi bạn đã tin tưởng nguồn tải (hash có trong [`manifest.json`](manifest.json)).
 
 ## Dùng bằng dòng lệnh
 
