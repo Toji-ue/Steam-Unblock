@@ -6,8 +6,6 @@
 - Chỉ tác động tới các miền Steam: không đổi DNS của card mạng, không sửa file `hosts`.
 - Dùng [GoodbyeDPI](https://github.com/ValdikSS/GoodbyeDPI) bản chính thức, đã kiểm tra hash, kèm DNS riêng (1.1.1.1 / 8.8.8.8) chỉ cho các miền Steam.
 
-> Đã kiểm tra thực tế trên FPT: Steam Store, Community, Help và API vượt qua hai lượt kiểm tra liên tiếp; chu trình bật → tắt sạch → bật lại cũng đạt. Đăng nhập, tải game và chơi online **chưa** được nghiệm thu đầy đủ. Chi tiết: [VALIDATION.md](VALIDATION.md).
-
 ## Tải về
 
 **[⬇ Tải FuckFpt.exe (bản mới nhất)](https://github.com/Toji-ue/Steam-Unblock/releases/latest/download/FuckFpt.exe)** · [Tất cả bản phát hành](https://github.com/Toji-ue/Steam-Unblock/releases)
