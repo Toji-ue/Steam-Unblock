@@ -372,7 +372,7 @@ namespace FuckFptDesktop
             catch (Exception ex) { Log("✗ " + ex.Message); }
             finally { gate.Release(); }
             Backend.Halt(false); exiting = false; UpdateButtons();
-            activity.Text = "Chưa thoát — chưa hoàn tác xong, xem chi tiết";
+            activity.Text = "Chưa thoát · chưa hoàn tác xong, xem chi tiết";
             MessageBox.Show(this, "Chưa hoàn tác được. Ứng dụng vẫn mở để bạn xem lỗi và thử Tắt / phục hồi.", "Chưa thoát", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
@@ -428,7 +428,7 @@ namespace FuckFptDesktop
                 bool ok = Backend.Flag(result, "Ok");
                 string message = Backend.Text(result, "Message");
                 if (logged || !ok) Log(ok ? "✓ Hoàn tất" : "✗ Chưa hoàn tất" + (logged ? "" : ": " + message));
-                if (!quiet) activity.Text = ok ? "Hoàn tất · " + DateTime.Now.ToString("HH:mm:ss") : "Chưa hoàn tất — xem log";
+                if (!quiet) activity.Text = ok ? "Hoàn tất · " + DateTime.Now.ToString("HH:mm:ss") : "Chưa hoàn tất · xem log";
                 if (!ok && !quiet) { ShowWindow(); MessageBox.Show(this, message, "Chưa thực hiện được", MessageBoxButton.OK, MessageBoxImage.Warning); }
                 return ok;
             }
@@ -437,7 +437,7 @@ namespace FuckFptDesktop
                 if (exiting) return false; // worker killed on purpose by exit
                 if (quiet && preempted) { if (logged) Log("· Đã dừng kiểm tra nền để chạy thao tác của bạn"); return false; }
                 Log("✗ " + ex.Message);
-                activity.Text = "Không đọc được kết quả — trạng thái hiển thị có thể đã cũ";
+                activity.Text = "Không đọc được kết quả · trạng thái hiển thị có thể đã cũ";
                 if (!quiet) { ShowWindow(); MessageBox.Show(this, ex.Message, "Lỗi xử lý", MessageBoxButton.OK, MessageBoxImage.Error); }
                 return false;
             }

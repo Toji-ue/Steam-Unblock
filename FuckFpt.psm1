@@ -24,7 +24,7 @@ function Assert-Admin {
 function Initialize-Root {
     if (Test-Path $script:Root) {
         $item = Get-Item $script:Root -Force
-        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Thư mục trạng thái là liên kết; từ chối sử dụng.' }
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Thư mục trạng thái là liên kết. Không dùng thư mục này.' }
         $acl = Get-Acl $script:Root
         $owner = $acl.GetOwner([Security.Principal.SecurityIdentifier]).Value
         if ($owner -notin @('S-1-5-18', 'S-1-5-32-544')) { throw 'Chủ sở hữu thư mục trạng thái không phải Administrators/SYSTEM; cần kiểm tra thủ công.' }
@@ -32,7 +32,7 @@ function Initialize-Root {
             $sid = $entry.IdentityReference.Translate([Security.Principal.SecurityIdentifier]).Value
             if ($entry.AccessControlType -eq 'Allow' -and $sid -notin @('S-1-5-18', 'S-1-5-32-544') -and
                 ($entry.FileSystemRights -band [Security.AccessControl.FileSystemRights]::Write)) {
-                throw 'Thư mục trạng thái cho phép người dùng thường ghi; từ chối nâng quyền dữ liệu.'
+                throw 'Thư mục trạng thái cho phép người dùng thường ghi. Không dùng thư mục này.'
             }
         }
     } else {
@@ -297,7 +297,7 @@ function Start-Session {
     $baseline = @(Invoke-Probe)
     Save-Report $baseline 'before'
     if (@($baseline | Where-Object { $_.Host -eq 'www.microsoft.com' -and -not $_.Pass }).Count) {
-        throw 'Website đối chứng chưa đạt; kiểm tra kết nối Internet trước khi bật xử lý Steam.'
+        throw 'Website đối chứng chưa đạt; kiểm tra kết nối Internet trước khi bật.'
     }
     if (@($baseline | Where-Object { -not $_.Pass }).Count -eq 0) {
         Write-Host 'Các kiểm tra web đã đạt; không thay đổi mạng. Các chức năng ứng dụng vẫn cần kiểm tra riêng.'
@@ -341,7 +341,7 @@ function Start-Session {
                 Save-Report $confirmation "$profile-confirm"
                 if (@($confirmation | Where-Object { -not $_.Pass }).Count -eq 0 -and -not $process.HasExited) {
                     $state.Phase = 'running'; Save-State $state
-                    Write-Host "Đã bật profile $profile; kiểm tra web đạt. Đăng nhập/Friends/tải game/Workshop/Market/chơi online chưa nghiệm thu."
+                    Write-Host "Đã bật profile $profile; kiểm tra web đạt. Chưa kiểm tra đăng nhập, Friends, tải game, Workshop, Market và chơi online."
                     return
                 }
             }
